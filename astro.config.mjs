@@ -16,9 +16,12 @@ export default defineConfig({
       theme: 'css-variables',
     },
   },
+  server: {
+    allowedHosts: true,
+  },
   vite: {
     preview: {
-      allowedHosts: ['marvailho.fairfaxdev.site', '.fairfaxdev.site'],
+      allowedHosts: true,
     },
   },
 });
