@@ -1,0 +1,17 @@
+---
+import { site } from '~/lib/site';
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isHome = pathname === '/';
+const isAbout = pathname === '/a-propos';
+---
+
+<header class="site__header">
+  <div class="brand">
+    <p class="brand__title"><a href="/">{site.title}</a></p>
+    <nav class="brand__nav" aria-label="Navigation principale">
+      <a href="/" aria-current={isHome ? 'page' : undefined}>Accueil</a>
+      <a href="/a-propos" aria-current={isAbout ? 'page' : undefined}>À propos</a>
+    </nav>
+  </div>
+</header>

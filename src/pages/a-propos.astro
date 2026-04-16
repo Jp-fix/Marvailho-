@@ -1,0 +1,18 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { site } from '~/lib/site';
+---
+
+<BaseLayout title="À propos" description={`À propos de ${site.author}`}>
+  <div class="page">
+    <h1>À propos</h1>
+    <p>
+      Ce site rassemble les nouvelles de {site.author}. Les textes y sont
+      publiés au fur et à mesure, sans prétention ni promesse de régularité.
+    </p>
+    <p>
+      Pour être tenu au courant des nouvelles parutions, vous pouvez vous
+      abonner au <a href="/rss.xml">flux RSS</a>.
+    </p>
+  </div>
+</BaseLayout>

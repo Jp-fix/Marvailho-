@@ -1,0 +1,32 @@
+---
+import { render } from 'astro:content';
+import StoryLayout from '~/layouts/StoryLayout.astro';
+import { getPublishedStories, type Story } from '~/lib/stories';
+
+export async function getStaticPaths() {
+  const stories = await getPublishedStories();
+  const chronological = [...stories].reverse();
+
+  return chronological.map((story, index) => {
+    const prev = index > 0 ? chronological[index - 1] : undefined;
+    const next = index < chronological.length - 1 ? chronological[index + 1] : undefined;
+    return {
+      params: { slug: story.id },
+      props: { story, prev, next },
+    };
+  });
+}
+
+interface Props {
+  story: Story;
+  prev?: Story;
+  next?: Story;
+}
+
+const { story, prev, next } = Astro.props;
+const { Content } = await render(story);
+---
+
+<StoryLayout story={story} prev={prev} next={next}>
+  <Content />
+</StoryLayout>

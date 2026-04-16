@@ -1,0 +1,23 @@
+---
+import type { Story } from '~/lib/stories';
+import { formatDateLong } from '~/lib/stories';
+import { formatReadingTime } from '~/lib/reading-time';
+
+interface Props {
+  story: Story;
+}
+
+const { story } = Astro.props;
+const url = `/nouvelles/${story.id}`;
+const readingTime = formatReadingTime(story.body ?? '');
+---
+
+<li class="story-item">
+  <h2 class="story-item__title"><a href={url}>{story.data.title}</a></h2>
+  {story.data.subtitle && <p class="story-item__subtitle">{story.data.subtitle}</p>}
+  <p class="story-item__meta">
+    <time datetime={story.data.date.toISOString()}>{formatDateLong(story.data.date)}</time>
+    <span> · {readingTime}</span>
+  </p>
+  {story.data.excerpt && <p class="story-item__excerpt">{story.data.excerpt}</p>}
+</li>

@@ -1,0 +1,17 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import StoryListItem from '~/components/StoryListItem.astro';
+import { getPublishedStories } from '~/lib/stories';
+import { site } from '~/lib/site';
+
+const stories = await getPublishedStories();
+---
+
+<BaseLayout title={undefined} description={site.description}>
+  <div class="wrap">
+    <p class="lede">{site.description}</p>
+    <ul class="stories">
+      {stories.map((story) => <StoryListItem story={story} />)}
+    </ul>
+  </div>
+</BaseLayout>

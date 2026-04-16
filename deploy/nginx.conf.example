@@ -1,0 +1,68 @@
+# Exemple de bloc server nginx pour servir le site statique.
+# À placer dans /etc/nginx/sites-available/reading puis symlink vers sites-enabled.
+# TLS assumé géré par certbot (ex: --nginx ou --webroot).
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name exemple.tld www.exemple.tld;
+    return 301 https://exemple.tld$request_uri;
+}
+
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name exemple.tld;
+
+    root /var/www/reading;
+    index index.html;
+
+    # Certificats Let's Encrypt (certbot)
+    # ssl_certificate     /etc/letsencrypt/live/exemple.tld/fullchain.pem;
+    # ssl_certificate_key /etc/letsencrypt/live/exemple.tld/privkey.pem;
+
+    # Compression
+    gzip on;
+    gzip_comp_level 6;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types
+        text/css
+        text/plain
+        text/javascript
+        application/javascript
+        application/json
+        application/xml
+        application/rss+xml
+        application/atom+xml
+        image/svg+xml;
+
+    # Sécurité de base
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+
+    # Assets versionnés par Astro (hash dans le nom) → cache agressif
+    location ~* \.(css|js|woff2|svg|png|jpe?g|webp|avif|ico)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+        try_files $uri =404;
+    }
+
+    # HTML : revalidation à chaque requête
+    location / {
+        try_files $uri $uri/ $uri.html =404;
+        add_header Cache-Control "public, max-age=0, must-revalidate";
+    }
+
+    # Flux et sitemaps
+    location = /rss.xml {
+        add_header Cache-Control "public, max-age=300";
+    }
+    location = /sitemap-index.xml {
+        add_header Cache-Control "public, max-age=300";
+    }
+
+    error_page 404 /404.html;
+    location = /404.html { internal; }
+}

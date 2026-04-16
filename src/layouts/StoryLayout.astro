@@ -1,0 +1,64 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import type { Story } from '~/lib/stories';
+import { formatDateLong } from '~/lib/stories';
+import { formatReadingTime } from '~/lib/reading-time';
+
+interface Props {
+  story: Story;
+  prev?: Story;
+  next?: Story;
+}
+
+const { story, prev, next } = Astro.props;
+const readingTime = formatReadingTime(story.body ?? '');
+const description = story.data.excerpt ?? story.data.subtitle ?? story.data.title;
+---
+
+<BaseLayout
+  title={story.data.title}
+  description={description}
+  ogType="article"
+  publishedTime={story.data.date.toISOString()}
+  canonical={`/nouvelles/${story.id}`}
+>
+  <article class="story">
+    <header class="story__header">
+      <h1 class="story__title">{story.data.title}</h1>
+      {story.data.subtitle && <p class="story__subtitle">{story.data.subtitle}</p>}
+      <p class="story__meta">
+        <time datetime={story.data.date.toISOString()}>
+          {formatDateLong(story.data.date)}
+        </time>
+        <span>{readingTime}</span>
+      </p>
+    </header>
+
+    <hr class="story__rule" aria-hidden="true" />
+
+    <div class="story__body">
+      <slot />
+    </div>
+
+    <p class="story__end" aria-hidden="true">* * *</p>
+
+    <nav class="story-nav" aria-label="Autres nouvelles">
+      {prev ? (
+        <a href={`/nouvelles/${prev.id}`} class="story-nav__prev" rel="prev">
+          <span class="story-nav__label">← Précédente</span>
+          <span class="story-nav__title">{prev.data.title}</span>
+        </a>
+      ) : (
+        <span class="story-nav__prev story-nav__empty" aria-hidden="true"></span>
+      )}
+      {next ? (
+        <a href={`/nouvelles/${next.id}`} class="story-nav__next" rel="next">
+          <span class="story-nav__label">Suivante →</span>
+          <span class="story-nav__title">{next.data.title}</span>
+        </a>
+      ) : (
+        <span class="story-nav__next story-nav__empty" aria-hidden="true"></span>
+      )}
+    </nav>
+  </article>
+</BaseLayout>

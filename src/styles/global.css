@@ -1,0 +1,525 @@
+/* ─── EB Garamond (self-hostée, subset latin) ─────────────────────────── */
+
+@font-face {
+  font-family: "EB Garamond";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/eb-garamond-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/eb-garamond-latin-400-italic.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "EB Garamond";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("/fonts/eb-garamond-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ─── Tokens ──────────────────────────────────────────────────────────── */
+
+:root {
+  --font-serif: "EB Garamond", "Iowan Old Style", "Apple Garamond", Baskerville,
+    "Libre Baskerville", Georgia, "Times New Roman", Times, serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+
+  --color-bg: #faf8f3;
+  --color-surface: #f3efe5;
+  --color-text: #1c1b1a;
+  --color-muted: #6b6660;
+  --color-rule: #d9d3c3;
+  --color-link: #2d4a5c;
+  --color-link-hover: #1c3342;
+
+  --measure: 65ch;
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --space-6: 6rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #14130f;
+    --color-surface: #1c1a16;
+    --color-text: #e8e3d8;
+    --color-muted: #938d82;
+    --color-rule: #2e2a22;
+    --color-link: #9fc0d4;
+    --color-link-hover: #c4dbe8;
+  }
+}
+
+/* ─── Reset & base ────────────────────────────────────────────────────── */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 1rem + 0.35vw, 1.2rem);
+  line-height: 1.65;
+  font-feature-settings: "liga", "onum", "kern";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
+  text-decoration-thickness: 0.06em;
+  transition: color 120ms ease;
+}
+
+a:hover,
+a:focus-visible {
+  color: var(--color-link-hover);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-link);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid var(--color-rule);
+  margin: var(--space-4) 0;
+}
+
+::selection {
+  background: var(--color-link);
+  color: var(--color-bg);
+}
+
+/* ─── Page shell ──────────────────────────────────────────────────────── */
+
+.site {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  padding-inline: var(--space-3);
+}
+
+.site__header,
+.site__footer {
+  width: min(var(--measure), 100%);
+  margin-inline: auto;
+}
+
+.site__header {
+  padding-block: var(--space-4) var(--space-3);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.site__main {
+  flex: 1;
+  padding-block: var(--space-4) var(--space-5);
+}
+
+.site__footer {
+  padding-block: var(--space-3) var(--space-4);
+  border-top: 1px solid var(--color-rule);
+  color: var(--color-muted);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.site__footer a {
+  color: inherit;
+}
+
+.wrap {
+  width: min(var(--measure), 100%);
+  margin-inline: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.brand__title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: 0.005em;
+  margin: 0;
+}
+
+.brand__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand__nav {
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+  display: flex;
+  gap: var(--space-2);
+}
+
+.brand__nav a {
+  color: var(--color-muted);
+  text-decoration: none;
+}
+
+.brand__nav a:hover,
+.brand__nav a[aria-current="page"] {
+  color: var(--color-text);
+}
+
+/* ─── Accueil ─────────────────────────────────────────────────────────── */
+
+.lede {
+  color: var(--color-muted);
+  font-style: italic;
+  max-width: 55ch;
+  margin-block: var(--space-2) var(--space-5);
+}
+
+.stories {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.story-item {
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.story-item:last-child {
+  border-bottom: none;
+}
+
+.story-item__title {
+  font-size: 1.6rem;
+  line-height: 1.2;
+  margin: 0 0 var(--space-1);
+  font-weight: 600;
+}
+
+.story-item__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.story-item__title a:hover {
+  color: var(--color-link);
+}
+
+.story-item__subtitle {
+  color: var(--color-muted);
+  font-style: italic;
+  margin: 0 0 var(--space-2);
+}
+
+.story-item__meta {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  letter-spacing: 0.02em;
+  font-variant-caps: small-caps;
+}
+
+.story-item__excerpt {
+  margin: var(--space-2) 0 0;
+}
+
+/* ─── Nouvelle (lecture) ──────────────────────────────────────────────── */
+
+.story {
+  max-width: var(--measure);
+  margin-inline: auto;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+}
+
+.story__header {
+  margin-bottom: var(--space-3);
+  text-align: center;
+}
+
+.story__title {
+  font-size: clamp(1.9rem, 1.5rem + 1.8vw, 2.6rem);
+  line-height: 1.15;
+  letter-spacing: -0.005em;
+  margin: 0 0 var(--space-2);
+  font-weight: 600;
+}
+
+.story__subtitle {
+  color: var(--color-muted);
+  font-style: italic;
+  font-size: 1.15rem;
+  margin: 0 0 var(--space-3);
+}
+
+.story__meta {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.story__meta time + span::before {
+  content: "·";
+  margin-inline: 0.5em;
+}
+
+/* Filet fin entre l'en-tête et le corps */
+.story__rule {
+  width: 5rem;
+  height: 1px;
+  border: 0;
+  margin: var(--space-4) auto;
+  background: var(--color-text);
+  opacity: 0.2;
+}
+
+.story__body {
+  text-align: left;
+}
+
+.story__body p {
+  margin: 0;
+  text-indent: 1.5em;
+}
+
+.story__body > p + p {
+  margin-top: 0;
+}
+
+/* Premier paragraphe de chaque section : pas d'indentation */
+.story__body > :first-child {
+  text-indent: 0;
+}
+.story__body h2 + p,
+.story__body h3 + p,
+.story__body hr + p,
+.story__body blockquote + p {
+  text-indent: 0;
+}
+
+.story__body h2,
+.story__body h3 {
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  margin: var(--space-4) 0 var(--space-2);
+}
+
+.story__body h2 {
+  font-size: 1.4rem;
+}
+
+.story__body h3 {
+  font-size: 1.2rem;
+}
+
+.story__body blockquote {
+  margin: var(--space-3) 0;
+  padding-inline: var(--space-3);
+  border-left: 2px solid var(--color-rule);
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.story__body blockquote p {
+  text-indent: 0;
+}
+
+.story__body em {
+  font-style: italic;
+}
+
+.story__body strong {
+  font-weight: 600;
+}
+
+/* Séparateur markdown (--- en fin de nouvelle par ex.) */
+.story__body hr {
+  width: 4rem;
+  margin: var(--space-4) auto;
+  border: 0;
+  border-top: 1px solid var(--color-text);
+  opacity: 0.2;
+}
+
+/* Note finale italique après le séparateur */
+.story__body hr + p em,
+.story__body hr ~ p em {
+  color: var(--color-muted);
+}
+
+.story__body hr ~ p {
+  text-align: center;
+  text-indent: 0;
+  color: var(--color-muted);
+  font-size: 0.95em;
+}
+
+/* Ornement de fin de nouvelle */
+.story__end {
+  margin: var(--space-5) 0 var(--space-4);
+  text-align: center;
+  color: var(--color-muted);
+  letter-spacing: 1em;
+  font-size: 1rem;
+  padding-left: 1em; /* compense le letter-spacing pour centrage optique */
+  opacity: 0.7;
+}
+
+/* ─── Navigation entre nouvelles ──────────────────────────────────────── */
+
+.story-nav {
+  margin-top: var(--space-4);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--color-rule);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+
+.story-nav a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.story-nav a:hover .story-nav__title {
+  color: var(--color-link);
+}
+
+.story-nav__label {
+  display: block;
+  color: var(--color-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+
+.story-nav__title {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 500;
+  transition: color 120ms ease;
+}
+
+.story-nav__next {
+  text-align: right;
+  grid-column: 2;
+}
+
+.story-nav__empty {
+  visibility: hidden;
+}
+
+/* ─── Pages génériques ────────────────────────────────────────────────── */
+
+.page {
+  max-width: var(--measure);
+  margin-inline: auto;
+}
+
+.page > * + * {
+  margin-top: var(--space-3);
+}
+
+.page h1 {
+  font-size: clamp(1.7rem, 1.4rem + 1.2vw, 2.1rem);
+  margin: 0 0 var(--space-3);
+  font-weight: 600;
+}
+
+/* ─── Responsive & impression ─────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+  .story__body p {
+    text-indent: 1.2em;
+  }
+  .site {
+    padding-inline: var(--space-2);
+  }
+  .story-nav {
+    grid-template-columns: 1fr;
+  }
+  .story-nav__next {
+    text-align: left;
+    grid-column: 1;
+  }
+}
+
+@media print {
+  .site__header,
+  .site__footer,
+  .brand__nav,
+  .story-nav {
+    display: none;
+  }
+  body {
+    background: white;
+    color: black;
+    font-size: 11pt;
+    line-height: 1.55;
+  }
+  .story__rule,
+  .story__body hr {
+    background: #999;
+    border-color: #999;
+  }
+  .story {
+    max-width: none;
+  }
+}
